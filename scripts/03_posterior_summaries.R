@@ -308,9 +308,7 @@ cat(
   )
 )
 
-# Scale-free CRM weights. Multiplying every w_k by a common constant leaves
-# these unchanged, so they are more informative than sum_k w_k for checking
-# the composition of the baseline random measure.
+# Scale-free CRM weights pi_k = w_k / sum_j w_j (invariant to rescaling w).
 w_norm <- sweep(
   w_draws,
   1L,
@@ -425,8 +423,7 @@ print(p_crm_mass)
 
 
 # Scale-free CRM composition: trace the support points with the largest
-# posterior mean normalized weights.  Draw each component in its own panel;
-# overlaying them can obscure slow movement in individual pi_k trajectories.
+# posterior mean normalized weights.  One panel per support point.
 n_crm_trace <- min(5L, ncol(w_norm))
 crm_top <- order(crm_norm_mean, decreasing = TRUE)[seq_len(n_crm_trace)]
 
@@ -598,7 +595,7 @@ write.csv(
 ## 2. FITTED STAGE-SPECIFIC CURVES f1(t), f2(t)
 ## ========================================================================
 
-# t was standardised within stage, so compare stages at a common
+# t was standardized within stage, so compare stages at a common
 # calendar day (days since start of that stage) and map each day
 # to its stage's t.
 
@@ -1007,11 +1004,11 @@ ggsave(file.path(out_dir, "delta_curve.pdf"),
 
 
 ## ========================================================================
-## 1b / 4. AVERAGE STAGE DIFFERENCE AND DIRECTION
+## 4. AVERAGE STAGE DIFFERENCE AND DIRECTION
 ## ========================================================================
 
 cat(
-  "\n========== 1b. AVERAGE STAGE DIFFERENCE / ",
+  "\n========== 4. AVERAGE STAGE DIFFERENCE / ",
   "4. DIRECTION ==========\n"
 )
 
@@ -1113,7 +1110,7 @@ print(
 )
 
 
-# Primary inferential-functional traces
+# Traces of the main functionals
 functional_trace_df <- rbind(
   data.frame(
     draw = seq_len(S),
@@ -1207,7 +1204,7 @@ p_delta_trace <- ggplot(
 print(p_delta_trace)
 
 
-# ACFs for two primary smooth functionals.
+# Autocorrelation of two mean functionals.
 acf_to_df <- function(x, label, lag_max = 100L) {
   ac <- stats::acf(
     x,
@@ -1361,11 +1358,11 @@ prob_report(
 
 
 ## ========================================================================
-## 2b. DO TIME PROFILES DIFFER ACROSS STAGES?
+## 5. DO TIME PROFILES DIFFER ACROSS STAGES?
 ## ========================================================================
 
 cat(
-  "\n================ 2b. TIME PROFILES ================\n"
+  "\n================ 5. TIME PROFILES ================\n"
 )
 
 
@@ -1391,15 +1388,14 @@ print(
 )
 
 
-# The shape comparison below is summarized using the simultaneous credible
-# band for the centered Stage 2 - Stage 1 time-profile difference.
+# Shape comparison: simultaneous band for the centered difference of the stage curves.
 
 
 ## ------------------------------------------------------------------------
 ## Shape-only comparison
 ## ------------------------------------------------------------------------
 
-# Centre each curve so only the time pattern is compared
+# Center each curve so only the time pattern is compared
 
 shape1 <- eta1 - rowMeans(eta1)
 shape2 <- eta2 - rowMeans(eta2)
@@ -1481,11 +1477,11 @@ ggsave(file.path(out_dir, "time_profile_shape_difference.pdf"),
 
 
 ## ========================================================================
-## 5. BETWEEN-RAT HETEROGENEITY
+## 6. BETWEEN-RAT HETEROGENEITY
 ## ========================================================================
 
 cat(
-  "\n================ 5. RAT HETEROGENEITY ================\n"
+  "\n================ 6. RAT HETEROGENEITY ================\n"
 )
 
 
@@ -1784,11 +1780,11 @@ ggsave(file.path(out_dir, "rat_random_effects.pdf"),
 
 
 ## ========================================================================
-## 6. POSTERIOR PREDICTIVE COUNTS
+## 7. POSTERIOR PREDICTIVE COUNTS
 ## ========================================================================
 
 cat(
-  "\n================ 6. POSTERIOR PREDICTIVE ================\n"
+  "\n================ 7. POSTERIOR PREDICTIVE ================\n"
 )
 
 pp_idx <- sort(
@@ -2088,7 +2084,7 @@ ggsave(file.path(out_dir, "posterior_predictive_distribution.pdf"),
 
 
 ## ========================================================================
-## 7. PREDICTIVE COUNTS FOR NEW DAYS
+## 8. PREDICTIVE COUNTS FOR NEW DAYS
 ## ========================================================================
 
 if (

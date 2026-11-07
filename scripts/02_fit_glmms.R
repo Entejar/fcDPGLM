@@ -124,23 +124,6 @@ pp_summary <- function(y_obs, yrep) {
   )
 }
 
-# Proper scoring rules for held-out counts.
-poisson_logscore <- function(y, mu) {
-  -dpois(y, lambda = pmax(mu, 1e-12), log = TRUE)
-}
-
-nb_logscore <- function(y, mu, size) {
-  -dnbinom(y, mu = pmax(mu, 1e-12), size = size, log = TRUE)
-}
-
-# CRPS from Monte Carlo predictive draws:
-# E|X-y| - 0.5 E|X-X'|.
-crps_sample <- function(draws, y) {
-  draws <- as.numeric(draws)
-  mean(abs(draws - y)) -
-    0.5 * mean(abs(draws - sample(draws, length(draws), replace = FALSE)))
-}
-
 # Draw one categorical count per row from row-wise probabilities.
 draw_counts <- function(prob, values) {
   cs <- t(apply(prob, 1L, cumsum))
@@ -157,7 +140,7 @@ tilted_pmf <- function(theta, weights, support) {
 
 
 ## ===========================================================================
-## PART A. FULL-DATA COMPARISON
+## COMPARISON
 ## ===========================================================================
 
 obj <- readRDS(dpglm_path)
@@ -268,7 +251,7 @@ delta_dp <- mu2_dp - mu1_dp
 
 
 ## ===========================================================================
-## A3. GLMM CURVES + UNCERTAINTY
+## A3. GLMM CURVES
 ## ===========================================================================
 
 curve_draws_glmm <- function(fit, Xg1, Xg2, nsim = 5000L) {
@@ -318,7 +301,7 @@ write.csv(curves_all,
 
 
 ## ===========================================================================
-## A4. SCIENTIFIC CONTRASTS + UNCERTAINTY
+## A4. STAGE CONTRASTS
 ## ===========================================================================
 
 contrast_table <- function(draws, model) {
@@ -423,7 +406,7 @@ for (j in seq_along(pp_idx)) {
 }
 
 # ---------------------------------------------------------------------------
-# GLMM predictive draws CONDITIONAL on the fitted random effects.
+# GLMM predictive draws given the fitted random effects.
 #
 # The checks concern the observed rats, so each GLMM's predicted rat effects
 # are held fixed, as the fcDPGLM draws condition on the sampled rat effects.
@@ -491,7 +474,6 @@ print(pp_all)
 #
 #       predictive statistic / observed statistic.
 #
-# A value of 1 indicates exact reproduction of the observed statistic.
 # The mean is omitted; m_d(t) and Delta(t) show the mean comparison.
 
 pp_ratio <- pp_all %>%

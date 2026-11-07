@@ -83,7 +83,7 @@ cat("Rat-days:", nrow(df_day), "| rats:", nlevels(df_day$rat),
 
 
 # -------------------------------------------------------------------------
-# Preliminary NB GLMM (same parameterisation as X): starting values, the
+# Preliminary NB GLMM (same parameterization as X): starting values, the
 # G0 size, and the initial sigma_a.  Not used as a prior.
 # -------------------------------------------------------------------------
 

@@ -8,7 +8,7 @@
 #
 #   w_k | u, theta, y ~ Gamma(alpha * G0(k) + n*_k, rate = 1 + psi(k)),
 #
-# and the normalising constant of this proposal is available in closed form,
+# and the normalizing constant of this proposal is available in closed form,
 # so the Metropolis-Hastings ratio for the CRM update is exact.  An MH step is
 # needed because theta is a deterministic function of the weights through the
 # mean constraint b'(theta_i) = mu_i.
@@ -203,7 +203,7 @@ rat_dpglm_sample_weights <- function(shape, log_psi, floor_value) {
 # with T_i(w) = exp(b_i(theta_i; w)).  The first line is the likelihood, the
 # second comes from the exponential part of the gamma weights (it is the
 # sum_k (w*_k + w_k) (psi(k) - psi*(k)) term written observation-wise), and the
-# third is the ratio of the proposal normalising constants.  When theta* equals
+# third is the ratio of the proposal normalizing constants.  When theta* equals
 # theta the ratio is exactly zero, i.e. the step reduces to a Gibbs draw.
 rat_dpglm_crm_log_ratio <- function(y, log_u, shape, theta, theta_star,
                                     support, weights, proposed_weights,
@@ -324,7 +324,7 @@ fit_rat_dpglm <- function(y, X, exposure, rat_id, iter = 2000L,
   #                  (sigma_a ~ half-Cauchy(0, sigma_a_scale), Gibbs via the
   #                  inverse-gamma mixture of Makalic and Schmidt 2016), or
   #                  "invgamma" (sigma_a^2 ~ IG(sigma_a_ig[1], sigma_a_ig[2]),
-  #                  rate parameterisation).  sigma_a is then the initial value.
+  #                  rate parameterization).  sigma_a is then the initial value.
   #   alpha_prior    NULL (alpha fixed) or c(shape, rate) of a gamma prior; alpha
   #                  is updated jointly with all CRM weights by an exact MH step
   #                  (random walk on log alpha with sd alpha_step, adapted toward
@@ -489,7 +489,7 @@ fit_rat_dpglm <- function(y, X, exposure, rat_id, iter = 2000L,
   # Optional joint random-walk proposal for xi = (beta, a).
   # If joint_cov is supplied, this replaces the separate beta proposal and
   # sequential scalar random-effect proposals. joint_cov should normally be a
-  # regularised covariance matrix estimated from a pilot chain.
+  # regularized covariance matrix estimated from a pilot chain.
   joint_chol <- NULL
   joint_dim <- p + n_rats
   if (!is.null(joint_cov)) {
@@ -502,7 +502,7 @@ fit_rat_dpglm <- function(y, X, exposure, rat_id, iter = 2000L,
     joint_cov <- (joint_cov + t(joint_cov)) / 2
     joint_chol <- tryCatch(chol(joint_cov), error = function(error) NULL)
     if (is.null(joint_chol)) {
-      stop("joint_cov is not positive definite; regularise it before fitting.",
+      stop("joint_cov is not positive definite; regularize it before fitting.",
            call. = FALSE)
     }
     if (is.null(joint_step)) joint_step <- 2.4 / sqrt(joint_dim)
@@ -529,14 +529,14 @@ fit_rat_dpglm <- function(y, X, exposure, rat_id, iter = 2000L,
   }
   
   # Check that the starting values give fitted means on the scale of the data
-  # (coefficients from a different parameterisation of X would not).
+  # (coefficients from a different parameterization of X would not).
   initial_mean <- exposure * exp(drop(X %*% beta) + random_effects[rat_index])
   mean_ratio <- mean(initial_mean) / mean(y)
   if (!is.finite(mean_ratio) || mean_ratio < 1 / 3 || mean_ratio > 3) {
     warning(sprintf(
       paste("initial_beta implies a mean count of %.3g against an observed mean of %.3g.",
             "Check that initial_beta and mu_beta are stated in the same",
-            "parameterisation as the columns of X."),
+            "parameterization as the columns of X."),
       mean(initial_mean), mean(y)
     ), call. = FALSE)
   }
