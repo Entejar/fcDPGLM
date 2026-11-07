@@ -1,7 +1,9 @@
-# fcDPGLM: finite-support DPGLM mixed model for repeated count data.
+# fcDPGLM: a semiparametric Bayesian generalized linear mixed model with a
+# nonparametric count distribution, for repeated count data.
 #
-# On the finite count support 0:K the gamma completely random measure is just a
-# vector of independent gamma weights, w_k ~ Gamma(alpha * G0(k), 1).  After the
+# The reference distribution is a normalized gamma completely random measure on
+# the counts 0, ..., K, with K well above the largest observed count, i.e.
+# independent gamma weights w_k ~ Gamma(alpha * G0(k), 1).  After the
 # auxiliary-u augmentation the full conditional of the weights is conjugate,
 #
 #   w_k | u, theta, y ~ Gamma(alpha * G0(k) + n*_k, rate = 1 + psi(k)),
@@ -1039,7 +1041,7 @@ fit_rat_dpglm <- function(y, X, exposure, rat_id, iter = 2000L,
   }
   
   list(
-    model = "rat-DPGLM-finite-discrete",
+    model = "fcDPGLM",
     beta = beta_samples,
     a = a_samples,
     theta = theta_samples,

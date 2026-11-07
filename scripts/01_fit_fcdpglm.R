@@ -13,7 +13,7 @@
 #   sigma_a ~ half-Cauchy(0, 1)
 #   alpha ~ Gamma(1, 0.1) (shape, rate)
 #   G0 = NB(mean = overall exposure-adjusted rate, size from a preliminary
-#     NB GLMM), truncated at K = max(y) + 30
+#     NB GLMM), on the counts 0, ..., K with K = max(y) + 30
 # Sampler: Fisher-preconditioned MALA for (beta, a), CRM weights in 4 random
 # blocks, an exact Gibbs draw of the total CRM mass and slice sampling of alpha.
 # Several chains are run in parallel from dispersed starting values.
@@ -201,7 +201,7 @@ cat("Run time (minutes) by chain:", round(sapply(chains, `[[`, "seconds") / 60, 
 
 pool <- function(name) do.call(rbind, lapply(chains, `[[`, name))
 pooled <- list(
-  model = "rat-DPGLM-finite-discrete (combined specification)",
+  model = "fcDPGLM (pooled chains)",
   beta = pool("beta"), a = pool("a"), theta = pool("theta"), u = pool("u"),
   weights = pool("weights"), loglik = unlist(lapply(chains, `[[`, "loglik")),
   crm_log_r = unlist(lapply(chains, `[[`, "crm_log_r")),
