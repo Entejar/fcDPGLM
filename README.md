@@ -12,7 +12,7 @@ analysis in Section 5 of the paper, and their results on the synthetic data.
 ## Synthetic data
 
 The seizure data analyzed in the paper are not publicly available. To allow the
-analysis to be reproduced, `data/synthetic_seizure_counts.csv` contains
+analysis to be run, `data/synthetic_seizure_counts.csv` contains
 simulated daily seizure counts with the same structure: 21 rats, two stages
 and 618 rat-days.
 
@@ -27,9 +27,10 @@ and 618 rat-days.
 The days and exposures follow the observation schedule of the original study.
 The counts were generated from the semiparametric model of the paper, with
 mean curves, rat effects and reference distribution estimated from the
-seizure data; this is the semiparametric setting with shape-difference mean
-curves and 21 rats in Section 4. The rat effects were resampled with replacement, so rat `r` in
-the synthetic data does not correspond to rat `r` in the original study.
+seizure data. This is the semiparametric setting with shape-difference mean
+curves and 21 rats in Section 4. The rat effects were resampled with
+replacement, so rat `r` in the synthetic data does not correspond to rat `r`
+in the original study.
 Summary statistics are close to those of the real data (mean 11.7 against
 10.2 seizures per day, 25% against 29% zero counts), but results obtained
 from the synthetic data are not the results reported in the paper.
