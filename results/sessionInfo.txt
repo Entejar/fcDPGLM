@@ -1,0 +1,19 @@
+R version 4.5.1 (2025-06-13)
+Platform: aarch64-apple-darwin24.4.0
+Running under: macOS 27.0.1
+
+Matrix products: default
+BLAS:   /opt/homebrew/Cellar/openblas/0.3.30/lib/libopenblasp-r0.3.30.dylib 
+LAPACK: /opt/homebrew/Cellar/r/4.5.1/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US/en_US/en_US/C/en_US/en_US
+
+time zone: America/Chicago
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+[1] compiler_4.5.1
